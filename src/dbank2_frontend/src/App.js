@@ -1,6 +1,6 @@
 import { html, render } from 'lit-html';
 import { dbank2_backend } from 'declarations/dbank2_backend';
-import logo from './logo2.svg';
+import logo from './logo2.png';
 
 class App {
   greeting = '';
@@ -22,7 +22,7 @@ class App {
         <img src="${logo}" alt="DFINITY logo" />
         <br />
         <br />
-        <form action="#">
+        <form id="greeting-form" action="#">
           <label for="name">Enter your name: &nbsp;</label>
           <input id="name" alt="Name" type="text" />
           <button type="submit">Click Me!</button>
@@ -31,9 +31,8 @@ class App {
       </main>
     `;
     render(body, document.getElementById('root'));
-    document
-      .querySelector('form')
-      .addEventListener('submit', this.#handleSubmit);
+    const gf = document.getElementById('greeting-form');
+    if (gf) gf.addEventListener('submit', this.#handleSubmit);
   }
 }
 

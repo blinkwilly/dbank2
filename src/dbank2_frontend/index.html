@@ -1,20 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IC Hello Starter</title>
+  <title>DBank2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link type="text/css" rel="stylesheet" href="/src/main.css" />
+  <script type="module" src="/src/index.js"></script>
 </head>
 
 <body>
-  <div class="browser-warning">
-    ⚠️ If this page appears broken, try reloading. If the problem persists, try switching browsers; Chrome or
-    Firefox are recommended.
+  <!-- <p id="status"></p> -->
+
+  <div class="container">
+    <img id="logo-img" src="/src/logo2.png" alt="DBank logo" width="100" />
+    <div id="root"></div>
+    <h1>Current Balance: $<span id="value">234</span></h1>
+    <div class="divider"></div>
+    <form id="transactions-form" action="#">
+      <h2>Amount to Top Up</h2>
+      <label for="input-amount">Top up amount</label>
+      <input id="input-amount" type="number" step="0.01" min="0" name="topUp" />
+
+      <h2>Amount to Withdraw</h2>
+      <label for="withdrawal-amount">Withdrawal amount</label>
+      <input id="withdrawal-amount" type="number" step="0.01" min="0" name="withdraw" />
+
+      <input id="submit-btn" type="submit" value="Finalise Transaction" />
+      <div id="loader" class="loader" style="display:none;" aria-hidden="true"></div>
+    </form>
   </div>
-  <div id="root"></div>
-  <script type="module" src="/src/main.js"></script>
+
+  <p id="status" style="margin-top: 10px;"></p> <!-- now at the bottom -->
+
+  <div id="toast"></div>
 </body>
 
 </html>
