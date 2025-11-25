@@ -106,3 +106,68 @@ if (transactionsForm) {
         }
     });
 }
+
+// Coupon redemption
+const redeemBtn = document.getElementById('redeem-btn');
+if (redeemBtn) {
+    redeemBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const codeEl = document.getElementById('coupon-code');
+        if (!codeEl) return setStatus('Coupon input missing', 'error');
+        const code = String(codeEl.value || '').trim();
+        if (code.length == 0) return setStatus('Enter a coupon code.', 'error');
+
+        setStatus('Redeeming coupon…', 'processing');
+        try {
+            const res = await dbank2_backend.redeemCoupon(code);
+            if (res === null) {
+                setStatus('Coupon invalid or already used.', 'error');
+            } else {
+                // res is an Option-like value; Motoko bindings map ?T to nullable in JS
+                const reward = res;
+                setStatus(`Coupon redeemed: +$${Number(reward).toFixed(2)}`, 'success');
+                showToast(`Redeemed $${Number(reward).toFixed(2)}!`);
+                // Refresh balance
+                try {
+                    const b = await dbank2_backend.checkBalance();
+                    document.getElementById('value').innerText = Number(b).toFixed(2);
+                } catch (e) {
+                    console.error('Failed to refresh balance after redeem:', e);
+                }
+            }
+        } catch (err) {
+            console.error('Redeem error:', err);
+            setStatus('Failed to redeem coupon.', 'error');
+        }
+    });
+}
+
+// Admin: generate coupon
+const generateBtn = document.getElementById('generate-btn');
+if (generateBtn) {
+    generateBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const rewardEl = document.getElementById('admin-reward');
+        const usesEl = document.getElementById('admin-uses');
+        const outEl = document.getElementById('generated-code');
+        if (!rewardEl || !usesEl || !outEl) return setStatus('Admin UI missing', 'error');
+
+        const reward = parseFloat(rewardEl.value) || 0;
+        const uses = Number.parseInt(usesEl.value) || 1;
+        if (reward <= 0) return setStatus('Enter a positive reward', 'error');
+        if (uses < 1) return setStatus('Uses must be at least 1', 'error');
+
+        setStatus('Generating coupon…', 'processing');
+        try {
+            const code = await dbank2_backend.generateCoupon(reward, uses);
+            outEl.innerText = `Generated: ${code}`;
+            setStatus('Coupon generated', 'success');
+            // clear inputs
+            rewardEl.value = '';
+            usesEl.value = '';
+        } catch (err) {
+            console.error('Generate error:', err);
+            setStatus('Failed to generate coupon', 'error');
+        }
+    });
+}

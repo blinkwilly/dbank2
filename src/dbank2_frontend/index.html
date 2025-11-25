@@ -29,6 +29,26 @@
       <input id="submit-btn" type="submit" value="Finalise Transaction" />
       <div id="loader" class="loader" style="display:none;" aria-hidden="true"></div>
     </form>
+
+    <!-- Coupon section -->
+    <div style="margin-top: 18px; text-align: left;">
+      <h2>Have a coupon?</h2>
+      <label for="coupon-code">Coupon code</label>
+      <input id="coupon-code" type="text" placeholder="Enter coupon code" />
+      <button id="redeem-btn">Redeem Coupon</button>
+    </div>
+
+    <!-- Admin: generate coupon (for testing) -->
+    <div id="admin"
+      style="margin-top: 18px; text-align: left; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 12px; margin-top: 22px;">
+      <h2>Admin: Create Coupon</h2>
+      <label for="admin-reward">Reward amount</label>
+      <input id="admin-reward" type="number" step="0.01" min="0" placeholder="e.g. 5.00" />
+      <label for="admin-uses">Uses allowed</label>
+      <input id="admin-uses" type="number" step="1" min="1" placeholder="e.g. 1" />
+      <button id="generate-btn">Generate Coupon</button>
+      <div id="generated-code" style="margin-top:8px; font-weight:700; color: #7eaaff;"></div>
+    </div>
   </div>
 
   <p id="status" style="margin-top: 10px;"></p> <!-- now at the bottom -->
